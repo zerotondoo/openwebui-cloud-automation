@@ -1,4 +1,4 @@
-"""OpenWebUI API client for automation using OpenAI-compatible endpoints."""
+"""OpenWebUI API client for automation."""
 
 import requests
 import json
@@ -19,7 +19,7 @@ class OpenWebUIClient:
         if not self.api_key:
             raise ValueError("OPENWEBUI_API_KEY environment variable is required")
             
-        # Common headers for all requests - using OpenAI-style authentication
+        # Common headers for all requests
         self.headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json"
@@ -70,7 +70,7 @@ class OpenWebUIClient:
             True if authentication is required, False otherwise
         """
         try:
-            self._make_request('GET', '/v1/models')  # Using OpenAI-compatible endpoint
+            self._make_request('GET', '/api/models')  # Using correct OpenWebUI endpoint
             return False
         except AuthenticationError:
             return True
@@ -84,7 +84,7 @@ class OpenWebUIClient:
             List of model information dictionaries
         """
         try:
-            response = self._make_request('GET', '/v1/models')  # Using OpenAI-compatible endpoint
+            response = self._make_request('GET', '/api/models')  # Using correct OpenWebUI endpoint
             if not response or not isinstance(response, dict):
                 raise OpenWebUIError("Invalid response format")
                 
@@ -115,8 +115,8 @@ class OpenWebUIClient:
             headers.pop('Content-Type', None)  # Let requests set the correct content type for multipart
             headers['Accept'] = 'application/json'
             
-            # Upload the file using OpenAI-compatible endpoint
-            upload_url = f"{self.config.get_webui_url()}/v1/files"
+            # Upload the file using OpenWebUI endpoint
+            upload_url = f"{self.config.get_webui_url()}/api/files/"
             upload_response = requests.post(
                 upload_url,
                 headers=headers,
@@ -152,7 +152,7 @@ class OpenWebUIClient:
         model: str,
         file_path: str
     ) -> Dict[str, Any]:
-        """Create new chat with file reference using OpenAI-compatible endpoints.
+        """Create new chat with file reference.
         
         Args:
             model: Model to use for chat
@@ -167,14 +167,14 @@ class OpenWebUIClient:
             if not upload_result["success"]:
                 return upload_result
                 
-            # Create a new chat using OpenAI-compatible endpoint
+            # Create a new chat using OpenWebUI endpoint
             chat_data = {
                 "model": model,
                 "messages": [],  # Empty initial messages
                 "file_ids": [upload_result["file_id"]]
             }
             
-            chat_response = self._make_request('POST', '/v1/chat/completions', json=chat_data)
+            chat_response = self._make_request('POST', '/api/chat/completions', json=chat_data)
             
             return {
                 "success": True,
