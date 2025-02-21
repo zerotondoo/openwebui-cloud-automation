@@ -9,5 +9,5 @@ paths:
   log_file: ./logs/automation.log
   transcript_folder: /Users/thomasvogt/Downloads/TRS
 webui:
-  api_key: ${OPENWEBUI_API_KEY}  # API key will be loaded from environment variable
-  url: https://your-openwebui-server.com  # Replace with your OpenWebUI server URL
+  api_key: ${OPENWEBUI_API_KEY}  # Will be loaded from environment variable
+  url: http://192.168.0.40:3000  # Remove trailing slash for consistency
