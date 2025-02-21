@@ -4,10 +4,10 @@ logging:
   max_size_mb: 10
 models:
   default: gpt-3.5-turbo
-  last_used: meta-llama-3-8b-instruct
+  last_used: gpt-4
 paths:
   log_file: ./logs/automation.log
   transcript_folder: /Users/thomasvogt/Downloads/TRS
 webui:
-  api_key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU1YjY0ZTdjLTc4NDItNGI2Zi1hM2U1LWFmY2RhNzhmNzA4OSJ9.2e9hqwUt6gAxtguaMDlRfNNC2a6AOwtfxahOtk9KAWM
-  url: http://10.130.141.101:3000
+  api_key: ${OPENWEBUI_API_KEY}  # API key will be loaded from environment variable
+  url: https://your-openwebui-server.com  # Replace with your OpenWebUI server URL
